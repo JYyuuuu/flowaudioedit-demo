@@ -1,0 +1,16 @@
+sample_id,operation,source_prompt,target_prompt,speech_id,source_event_id,target_event_id
+custom_add_01,addition,a man giving a speech,a man giving a speech with keyboard typing in the background,1699,,2223
+custom_add_02,addition,a woman speaking,a woman speaking with a cat meowing in the background,1809,,1-56380-B-5
+custom_add_03,addition,a girl speaking in front of people,a girl speaking in front of people with people clapping in the background,1999,,1-94036-A-22
+custom_add_04,addition,an adult male speaking forcefully,an adult male speaking forcefully with a large bell ringing repeatedly in the background,4202,,35689
+custom_add_05,addition,a male speaking narrative monologue,a male speaking narrative monologue with an emergency vehicle siren in the background,3252,,2056
+custom_rem_01,removal,a man giving a speech with keyboard typing in the background,a man giving a speech,7791,2988,
+custom_rem_02,removal,a woman giving a speech with a dog barking continuously in the background,a woman giving a speech,13050,6598,
+custom_rem_03,removal,an adult female speaking with people clapping in the background,an adult female speaking,13332,1-94036-A-22,
+custom_rem_04,removal,a man giving a speech with an emergency vehicle siren in the background,a man giving a speech,13340,2056,
+custom_rem_05,removal,a woman giving a speech with people laughing in the background,a woman giving a speech,3819,1-30043-A-26,
+custom_rep_01,replacement,a woman giving a speech with a dog barking in the background,a woman giving a speech with keyboard typing in the background,14237,7516,2223
+custom_rep_02,replacement,a man giving a speech with an emergency vehicle siren in the background,a man giving a speech with people clapping in the background,17549,2056,1-94036-A-22
+custom_rep_03,replacement,a kid giving a speech with a cat meowing in the background,a kid giving a speech with a dog barking in the background,3048,1-56380-B-5,1-30344-A-0
+custom_rep_04,replacement,a female adult speaking with a large bell ringing repeatedly in the background,a female adult speaking with a frog croaking in the background,2677,35689,1-15689-B-4
+custom_rep_05,replacement,a male speaking narrative monologue with a saw cutting wood in the background,a male speaking narrative monologue with a person whistling a song in the background,3252,6232,21882

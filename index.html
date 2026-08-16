@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FlowAudioEdit</title>
+    <meta
+      name="description"
+      content="Official academic project demo page for FlowAudioEdit: Training-Free and Inversion-Free Audio Editing with Pre-trained Flow Models."
+    >
+    <link rel="stylesheet" href="styles.css?v=4">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="hero">
+      <div class="container hero-inner">
+        <h1>FlowAudioEdit</h1>
+        <p class="subtitle">Training-Free and Inversion-Free Audio Editing with Pre-trained Flow Models</p>
+        <p class="authors">Jiayi Yu &middot; Xiaoran Yang &middot; Gongping Huang</p>
+        <p class="affiliation">School of Electronic Information, Wuhan University, Wuhan, China</p>
+
+        <nav class="project-links" aria-label="Project links">
+          <a class="pill-button is-disabled" href="#" aria-disabled="true">Paper</a>
+          <a class="pill-button is-disabled" href="#" aria-disabled="true">arXiv</a>
+          <a class="pill-button is-disabled" href="#" aria-disabled="true">Code</a>
+          <a class="pill-button is-disabled" href="#" aria-disabled="true">Demo</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section section-tight" aria-labelledby="abstract-title">
+        <div class="container narrow">
+          <h2 id="abstract-title">Abstract</h2>
+          <p>
+            Text-guided audio editing requires modifying content specified by a target prompt while preserving unrelated
+            source information. Existing training-free editing methods can achieve this through source inversion, but
+            reconstructing the source trajectory introduces additional computation and potential reconstruction errors.
+            FlowAudioEdit introduces the inversion-free FlowEdit paradigm into audio editing by adapting FlowEdit to the
+            native latent spaces of two pre-trained text-to-audio flow models, and by performing direct source-to-target
+            editing through the difference between source- and target-conditioned velocity fields.
+          </p>
+          <p>
+            To account for the different roles of source and target guidance during editing, FlowAudioEdit further
+            introduces dynamic classifier-free guidance, which progressively decreases source guidance while increasing
+            target guidance along the trajectory. Experiments show strong editing and preservation performance on both
+            TangoFlux and Stable Audio 3 backbones without source inversion, while avoiding source inversion reduces
+            computational overhead and enables more efficient inference.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="method-title">
+        <div class="container">
+          <div class="section-heading">
+            <h2 id="method-title">Method</h2>
+            <p>
+              FlowAudioEdit maps source audio into the latent space of a frozen text-to-audio flow model and edits it
+              directly, without reconstructing a source trajectory.
+            </p>
+          </div>
+          <div class="method-grid">
+            <article class="method-card">
+              <span class="method-index">1</span>
+              <h3>FlowEdit for Audio Flow Models</h3>
+              <p>
+                The method adapts FlowEdit to the native latent spaces of TangoFlux and Stable Audio 3 using frozen
+                encoders, decoders, and text-conditioned velocity fields.
+              </p>
+            </article>
+            <article class="method-card">
+              <span class="method-index">2</span>
+              <h3>Direct Source-to-Target Editing</h3>
+              <p>
+                At each active editing step, paired source and target states are constructed with shared noise, and the
+                edited latent is updated by integrating the target-minus-source velocity difference.
+              </p>
+            </article>
+            <article class="method-card">
+              <span class="method-index">3</span>
+              <h3>Progress-Dependent Dynamic CFG</h3>
+              <p>
+                Source guidance gradually decreases while target guidance increases over the active FlowEdit updates,
+                balancing preservation and the desired edit.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="setup-title">
+        <div class="container">
+          <div class="section-heading">
+            <h2 id="setup-title">Experimental Setup</h2>
+          </div>
+          <div class="info-grid">
+            <article class="info-card">
+              <h3>Paper Benchmark</h3>
+              <p>
+                The paper benchmark is built from AudioCaps clips filtered by audio-text CLAP similarity above 0.4. It
+                contains 3,000 ten-second source-target pairs across addition, removal, and replacement, with 1,000
+                pairs per task.
+              </p>
+            </article>
+            <article class="info-card">
+              <h3>Baselines</h3>
+              <p>
+                FlowAudioEdit is compared with MMEdit, AudioEditor, and Stable Audio 3 medium inpainting. The proposed
+                method is evaluated on TangoFlux and Stable Audio 3 medium backbones.
+              </p>
+            </article>
+            <article class="info-card">
+              <h3>Evaluation</h3>
+              <p>
+                Semantic alignment and preservation are measured with LAION-CLAP metrics. Reference similarity and
+                distance are evaluated with FAD, LSD, LPAPS, MCD, and Mel-L1; efficiency is measured by RTF and peak GPU
+                memory.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section results-section" aria-labelledby="audio-results-title">
+        <div class="container">
+          <div class="section-heading">
+            <h2 id="audio-results-title">Audio Editing Results</h2>
+            <p>
+              Each example compares the source audio with AudioEditor, MMEdit,
+              FlowAudioEdit (Static CFG), FlowAudioEdit (Dynamic CFG), and the target reference.
+            </p>
+            <p class="note">
+              All 15 constructed examples are shown for manual screening. The WAV files are built from the selected
+              AudioCaps and ESC source materials, then edited by each method on the same source-target pair.
+            </p>
+          </div>
+
+          <div class="operation-tabs" role="tablist" aria-label="Editing operation">
+            <button
+              class="operation-tab is-active"
+              type="button"
+              role="tab"
+              id="tab-addition"
+              aria-selected="true"
+              aria-controls="demo-panel"
+              data-operation="addition"
+            >
+              Addition
+            </button>
+            <button
+              class="operation-tab"
+              type="button"
+              role="tab"
+              id="tab-removal"
+              aria-selected="false"
+              aria-controls="demo-panel"
+              data-operation="removal"
+              tabindex="-1"
+            >
+              Removal
+            </button>
+            <button
+              class="operation-tab"
+              type="button"
+              role="tab"
+              id="tab-replacement"
+              aria-selected="false"
+              aria-controls="demo-panel"
+              data-operation="replacement"
+              tabindex="-1"
+            >
+              Replacement
+            </button>
+          </div>
+
+          <div class="backbone-row" aria-label="Backbone selector">
+            <span class="selector-label">Backbone</span>
+            <div class="backbone-toggle" role="group" aria-label="Audio backbone">
+              <button class="backbone-button is-active" type="button" data-backbone="tangoflux" aria-pressed="true">
+                TangoFlux
+              </button>
+              <button class="backbone-button" type="button" data-backbone="sa3" aria-pressed="false">
+                Stable Audio 3
+              </button>
+            </div>
+          </div>
+
+          <div
+            id="demo-panel"
+            class="demo-panel"
+            role="tabpanel"
+            aria-labelledby="tab-addition"
+            aria-live="polite"
+          >
+            <div id="demo-grid" class="demo-grid"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">FlowAudioEdit &middot; Demo</div>
+    </footer>
+
+    <script src="showcase_v6_data.js?v=1"></script>
+    <script src="script.js?v=8"></script>
+  </body>
+</html>
